@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f8f8;
+        }
+        #recommendations {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 60%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>Recommended Movies</h2>
+    <div id="recommendations">Loading...</div>
+
+    <script>
+        // Extract the movie name from the URL
+        const params = new URLSearchParams(window.location.search);
+        const movieName = params.get("movie_name");
+
+        if (!movieName) {
+            document.getElementById("recommendations").innerHTML = "<p>No movie name provided.</p>";
+        } else {
+            // Fetch movie recommendations from backend
+            fetch(`http://127.0.0.1:5000/recommendations?movie_name=${encodeURIComponent(movieName)}`)
+            .then(response => response.json())
+            .then(data => {
+                let output = "<h3>Recommended Movies:</h3>";
+
+                if (data.length > 0) {
+                    data.forEach(movie => {
+                        output += `
+                            <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background: white;">
+                                <h4>${movie.title}</h4>
+                                <p><strong>Rating:</strong> ${movie.rating}</p>
+                                <a href="${movie.link}" target="_blank">More Info</a>
+                            </div>
+                        `;
+                    });
+                } else {
+                    output += "<p>No recommendations found. Try another movie.</p>";
+                }
+
+                document.getElementById("recommendations").innerHTML = output;
+            })
+            .catch(error => {
+                document.getElementById("recommendations").innerHTML = "<p>Error fetching recommendations.</p>";
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(1, 1, 1, 0.7);
+            padding: 15px 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #ff2e63;
+        }
+        .sign-in {
+            background: #e94560;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .sign-in:hover {
+            background: #ff2e63;
+        }
+        .container {
+            width: 350px;
+            margin: 100px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .message {
+            margin-top: 15px;
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="intex.html">Home</a>
+            <a href="topmovies.html">Top Movies</a>
+            <a href="genres.html">Genres</a>
+            <a href="#">Contact</a>
+            
+        </div>
+        <a href="signin.html" class="sign-in">Sign In</a>
+        
+
+    </nav>
+
+    <div class="container">
+        <h2>Sign In</h2>
+        <input type="text" id="name" placeholder="Enter Your Name" required>
+        <input type="email" id="email" placeholder="Enter Your Email" required>
+        <input type="password" id="password" placeholder="Enter Your Password" required>
+        <button onclick="signIn()">Sign In</button>
+        <p class="message" id="message"></p>
+    </div>
+
+
+    <script>
+        function signIn() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            
+            if (name && email && password) {
+                document.getElementById("message").innerHTML = "Successfully Signed In!";
+            } else {
+                document.getElementById("message").innerHTML = "Please fill out all fields!";
+                document.getElementById("message").style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>

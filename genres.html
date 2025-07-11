@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genres - Movie Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #dbd0d0;
+            color: white;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(1, 1, 1, 0.7);
+            padding: 15px 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #ff2e63;
+        }
+        .sign-in {
+            background: #e94560;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .sign-in:hover {
+            background: #ff2e63;
+        }
+
+        nav {
+            background: #f0ebeb;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        nav a.active {
+            font-weight: bold;
+            border-bottom: 2px solid red;
+        }
+
+        .signin-btn {
+            background: red;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .genres-container {
+            text-align: center;
+            padding: 20px;
+            color:#4ec0da;
+        }
+
+        .movies-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: #222;
+            padding: 15px;
+            width: 250px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+        }
+
+        .movie-card img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .movie-card h3 {
+            margin: 10px 0;
+        }
+
+        .movie-card a {
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="intex.html">Home</a>
+            <a href="topmovies.html">Top Movies</a>
+            <a href="genres.html">Genres</a>
+            <a href="#">Contact</a>
+            
+        </div>
+        <a href="signin.html" class="sign-in">Sign In</a>
+    </nav>
+
+
+    <!-- Genres Section -->
+    <div class="genres-container">
+        <h1>Explore Movies by Genre</h1>
+        <div class="movies-list" id="movies-container"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const movies = [
+                {
+                    name: "Dune: Part Two",
+                    genre: "Sci-Fi",
+                    image: "parttwo.jpg",
+                    link: "https://www.imdb.com/title/tt15239678/",
+                    rating: "8.5",
+                    recommendations: [
+                        { name: "Interstellar", link: "https://www.imdb.com/title/tt0816692/" },
+                        { name: "Blade Runner 2049", link: "https://www.imdb.com/title/tt1856101/" }
+                    ]
+                },
+                {
+                    name: "Oppenheimer",
+                    genre: "Drama",
+                    image: "oppenheimer.jpg",
+                    link: "https://www.imdb.com/title/tt15398776/",
+                    rating: "9.0",
+                    recommendations: [
+                        { name: "The Imitation Game", link: "https://www.imdb.com/title/tt2084970/" },
+                        { name: "The Theory of Everything", link: "https://www.imdb.com/title/tt2980516/" }
+                    ]
+                },
+                {
+                    name: "Spider-Man: Across the Spider-Verse",
+                    genre: "Animation",
+                    image: "spiderman.jpg",
+                    link: "https://www.imdb.com/title/tt9362722/",
+                    rating: "8.7",
+                    recommendations: [
+                        { name: "Into the Spider-Verse", link: "https://www.imdb.com/title/tt4633694/" },
+                        { name: "The Lego Batman Movie", link: "https://www.imdb.com/title/tt4116284/" }
+                    ]
+                }
+            ];
+    
+            const moviesContainer = document.getElementById("movies-container");
+    
+            movies.forEach(movie => {
+                const movieCard = document.createElement("div");
+                movieCard.classList.add("movie-card");
+    
+                movieCard.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.name}" class="movie-img" data-name="${movie.name}">
+                    <h3>${movie.name}</h3>
+                    <p><strong>Genre:</strong> ${movie.genre}</p>
+                    <p><strong>Rating:</strong> ${movie.rating}⭐</p>
+                    <a href="${movie.link}" target="_blank">View Details</a>
+                    <div class="recommendations" id="rec-${movie.name}" style="display:none; margin-top:10px;"></div>
+                `;
+    
+                moviesContainer.appendChild(movieCard);
+            });
+    
+            // Event listener for clicking on movie images
+            document.querySelectorAll(".movie-img").forEach(img => {
+                img.addEventListener("click", function () {
+                    const movieName = this.dataset.name;
+                    const movie = movies.find(m => m.name === movieName);
+                    const recommendationsDiv = document.getElementById(`rec-${movie.name}`);
+    
+                    if (recommendationsDiv.style.display === "none") {
+                        recommendationsDiv.style.display = "block";
+                        recommendationsDiv.innerHTML = `<h4>Related Movies:</h4>`;
+                        movie.recommendations.forEach(rec => {
+                            recommendationsDiv.innerHTML += `<p><a href="${rec.link}" target="_blank">${rec.name}</a></p>`;
+                        });
+                    } else {
+                        recommendationsDiv.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #222;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .nav-links a, .logout {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .logout {
+            cursor: pointer;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .search-container input {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-btn {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .search-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Movie List */
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .movie-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+        }
+
+        .movie-card h3 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .movie-card p {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .rating-btn {
+            padding: 8px 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(1, 1, 1, 0.7);
+            padding: 15px 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #ff2e63;
+        }
+        .sign-in {
+            background: #e94560;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .sign-in:hover {
+            background: #ff2e63;
+        }
+
+        .rating-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Recommendation Link */
+        .recommendation {
+            display: block;
+            margin: 20px auto;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .recommendation:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="topmovies.html">Top Movies</a>
+            <a href="genres.html">Genres</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="signin.html" class="sign-in">Sign In</a>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search Movies" onkeyup="searchMovies()">
+        <button class="search-btn">Search</button>
+    </div>
+
+    <h2 class="title">Movies List</h2>
+    <div class="movie-container" id="movieContainer">
+        <!-- Movies will be loaded dynamically -->
+    </div>
+
+    <a href="#" class="recommendation">Get Recommendation</a>
+
+    <script>
+        // Movie Data with Links
+        const movies = [
+            { name: "The Dark Knight", genre: "Action|Crime|Drama", image: "dk.jpg", link: "https://www.imdb.com/title/tt0468569/", rating: "9.0" },
+            { name: "Spider-Man: No Way Home", genre: "Action|Adventure|Sci-Fi", image: "spiderman.jpg", link: "https://www.imdb.com/title/tt10872600/", rating: "8.5" },
+            { name: "King Kong", genre: "Action|Adventure|Drama", image: "kingkong.webp", link: "https://www.imdb.com/title/tt0360717/", rating: "7.2" },
+            { name: "Inception", genre: "Action|Adventure|Sci-Fi", image: "inception.jpg", link: "https://www.imdb.com/title/tt1375666/", rating: "8.8" },
+            { name: "Interstellar", genre: "Adventure|Drama|Sci-Fi", image: "interesteller.jpg", link: "https://www.imdb.com/title/tt0816692/", rating: "8.6" }
+        ];
+    
+        // Load Movies
+        function loadMovies() {
+            const container = document.getElementById("movieContainer");
+            container.innerHTML = ""; // Clear previous content
+    
+            movies.forEach(movie => {
+                let movieCard = `
+                    <div class="movie-card">
+                        <a href="${movie.link}" target="_blank">
+                            <img src="${movie.image}" alt="${movie.name}">
+                        </a>
+                        <h3>${movie.name}</h3>
+                        <p>${movie.genre}</p>
+                        <p><strong>Rating:</strong> ${movie.rating}</p>
+                    </div>
+                `;
+                container.innerHTML += movieCard;
+            });
+        }
+    
+        // Load movies on page load
+        window.onload = loadMovies;
+    </script>
+    
+    
+</body>
+</html>

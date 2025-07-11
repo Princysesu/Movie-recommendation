@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        /* Background Slider */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 500%;
+            height: 100vh;
+            display: flex;
+            transition: transform 1.5s ease-in-out;
+        }
+        .background-container div {
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(1, 1, 1, 0.7);
+            padding: 15px 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #ff2e63;
+        }
+        .sign-in {
+            background: #e94560;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .sign-in:hover {
+            background: #ff2e63;
+        }
+
+        /* Search Container */
+        .search-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; /* Slightly wider for better responsiveness */
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.85); /* Slightly darker for better contrast */
+    padding: 40px;
+    border-radius: 12px;
+    z-index: 10;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures everything is properly centered */
+    gap: 20px; /* Adds space between elements */
+}
+
+.search-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.search-box {
+    width: 70%;
+    max-width: 500px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+.search-btn {
+    width: 70%;
+    max-width: 500px;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: #e94560;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+.search-btn:hover {
+    background-color: #ff2e63;
+}
+.marquee-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff2e63;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Images -->
+    <div class="background-container" id="slider">
+        <div style="background-image: url('avatar.png');"></div>
+        <div style="background-image: url('battman.jpg');"></div>
+        <div style="background-image: url('spiderman.jpg');"></div>
+        <div style="background-image: url('kingkong.webp');"></div>
+        <div style="background-image: url('harrypotter.jpg');"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="intex.html">Home</a>
+            <a href="topmovies.html">Top Movies</a>
+            <a href="genres.html">Genres</a>
+            <a href="#">Contact</a>
+            
+        </div>
+        <a href="signin.html" class="sign-in">Sign In</a>
+    </nav>
+
+    <!-- Search Box -->
+    <div class="search-container">
+        <header class="search-header">Get Your Favourite Movies</header>
+        <div class="search-box">
+            <input type="text" id="userInput" placeholder="Enter a movie name...">
+            <button class="search-btn" onclick="redirectToRecommendations()">Search</button>
+        </div>
+    </div>
+    <marquee class="marquee-text" behavior="scroll" direction="left">
+        🎬 Trending Now: Dune: Part Two | Oppenheimer | Spider-Man: No Way Home | The Batman | Avatar: The Way of Water 🎥
+    </marquee>
+    
+
+    <script>
+        let currentIndex = 0;
+
+        function changeBackground() {
+            const slider = document.getElementById('slider');
+            currentIndex = (currentIndex + 1) % 5;
+            slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+        }
+
+        setInterval(changeBackground, 3000);
+
+        function redirectToRecommendations() {
+            let input = document.getElementById("userInput").value.trim();
+            if (input === "") {
+                alert("Please enter a movie name.");
+                return;
+            }
+            // Redirect to recommendations page with movie name as a URL parameter
+            window.location.href = `recommendations.html?movie_name=${encodeURIComponent(input)}`;
+        }
+    </script>
+
+</body>
+</html>
